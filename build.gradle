@@ -1,0 +1,54 @@
+buildscript {
+    //ext는 build.gradle 에서 사용하는 전역변수를 설정하겠다는 의미
+    //즉, spring-boot-gradle-plugin 라는 스프링부트 그레이들 플러그인의 2.1.7.RELEASE 를 의존성으로 받겠다는 의미
+    ext {
+        springBootVersion = '2.1.9.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+//        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+// io.spring.dependency-management 플러그인은 스프링부트의 의존성을 관리해주는 플러그인이라 꼭 추가해야 함
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.jojoldu.book'
+version '1.0.4-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
+sourceCompatibility = 1.8
+
+//repositories 는 각종 의존성을 어떤 저장소에서 받을 지 정함. 기본적으로 mavenCentral을 많이 사용하지만 최근에는
+//라이브러리 업로드 난이도 때문에 jcenter 도 많이 사용
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+// 프로젝트 개발에 필요한 의존성을 선언하는 곳
+// 인텔리제이는 메이븐 저장소의 데이터를 인덱싱해서 관리하기 때문에 커뮤니티 버전을 사용해도 의존성 자동완성이 가능 .
+dependencies {
+
+    implementation('org.springframework.boot:spring-boot-starter-web')
+//    implementation('org.projectlombok:lombok')
+//    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+//    implementation('org.springframework.boot:spring-boot-starter-mustache')
+//    implementation('com.h2database:h2')
+//
+//    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
+//    implementation('org.springframework.session:spring-session-jdbc')
+//
+//    implementation("org.mariadb.jdbc:mariadb-java-client")
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation("org.springframework.security:spring-security-test")
+}
+
+test {
+    useJUnitPlatform()
+}
